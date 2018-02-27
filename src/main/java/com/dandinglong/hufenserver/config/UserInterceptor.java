@@ -19,7 +19,7 @@ public class UserInterceptor implements HandlerInterceptor {
         HttpSession session=req.getSession();
         HfUser hfUser=(HfUser)session.getAttribute("hfUser");
         if(hfUser==null){
-            throw new LoginException("请先登录");
+//            throw new LoginException("请先登录");
         }
         return true;
     }

@@ -20,20 +20,36 @@ import java.util.List;
 public class GuanzhuController {
     @Autowired
     private HfToutiaoAccountMapper hfToutiaoAccountMapper;
+
     @RequestMapping("/accountSave")
-    public RespRestfulDto accountSave(@RequestBody HfToutiaoAccount hfToutiaoAccount){
-//        try {
-            Example example=new Example(HfToutiaoAccount.class);
-            example.createCriteria().andEqualTo("toutiaoAccount",hfToutiaoAccount.getToutiaoAccount());
-            List<HfToutiaoAccount> list=hfToutiaoAccountMapper.selectByExample(example);
-            if(list.size()==0){
+    public RespRestfulDto accountSave(@RequestBody HfToutiaoAccount hfToutiaoAccount) {
+        try {
+            Example example = new Example(HfToutiaoAccount.class);
+            example.createCriteria().andEqualTo("toutiaoAccount", hfToutiaoAccount.getToutiaoAccount());
+            List<HfToutiaoAccount> list = hfToutiaoAccountMapper.selectByExample(example);
+            if (list.size() == 0) {
                 hfToutiaoAccount.setLastLoginTime(new Date());
                 hfToutiaoAccountMapper.insert(hfToutiaoAccount);
+            }else if(list.size()==1){
+                HfToutiaoAccount record=list.get(0);
+                record.setFirstArticleId(hfToutiaoAccount.getFirstArticleId());
+                hfToutiaoAccount.setLastLoginTime(new Date());
+                hfToutiaoAccountMapper.updateByPrimaryKey(record);
             }
             return RespCommon.success(1);
-//        }catch (Exception e){
-//            return RespCommon.fail(e);
-//        }
+        } catch (Exception e) {
+            return RespCommon.fail(e);
+        }
+    }
+
+    @RequestMapping("/accountList")
+    public RespRestfulDto accountList(@RequestBody(required = true) HfToutiaoAccount hfToutiaoAccount) {
+        try {
+            return RespCommon.success(hfToutiaoAccountMapper.selectAll());
+        } catch (Exception e) {
+            return RespCommon.fail(e);
+        }
+
 
     }
 }

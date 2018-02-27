@@ -7,6 +7,7 @@ public class HfToutiaoAccount {
     @Id
     private int id;
     private String toutiaoAccount;
+    private String firstArticleId;
     private Date lastLoginTime;
 
     public int getId() {
@@ -23,6 +24,14 @@ public class HfToutiaoAccount {
 
     public void setToutiaoAccount(String toutiaoAccount) {
         this.toutiaoAccount = toutiaoAccount;
+    }
+
+    public String getFirstArticleId() {
+        return firstArticleId;
+    }
+
+    public void setFirstArticleId(String firstArticleId) {
+        this.firstArticleId = firstArticleId;
     }
 
     public Date getLastLoginTime() {
